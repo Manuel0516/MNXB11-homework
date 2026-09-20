@@ -1,0 +1,146 @@
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ catt[K run_in_container_calculatePI.sh [1@.[1@/
+[?2004l#!/bin/sh
+# This script runs the calculatePI.sh script using the container `mnxb11_al9.latest.sif` with minimum required parameters
+# -B mounts the project directory inside the container so that is visible also inside the container
+apptainer run -B /projects:/projects /projects/hep/fs11/share/mnxb11/containers/mnxb11_al9.latest.sif ./calculatePI_setup.sh
+
+
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ cat calculatepi.sbatch-manuel.sh 
+[?2004l#!/bin/sh
+
+#SBATCH -J "MNXB11 Calculate Pi homework"
+#SBATCH --time=00:08:00
+#SBATCH -A hep2023-1-6
+#SBATCH --mem 26G
+
+# Launch the calculatePI.sh application script using the container script
+run_in_container_calculatePI.sh
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch calculatepi.sbatch-manuel.sh 
+[?2004lSubmitted batch job 3680001
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ squeue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3680001       hep MNXB11 C mlorente  R       0:08      1 cx05
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sacct -j 3680001
+[?2004lJobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+3680001      MNXB11 Ca+        hep hep2023-1+          1    RUNNING      0:0 
+3680001.bat+      batch            hep2023-1+          1    RUNNING      0:0 
+3680001.ext+     extern            hep2023-1+          1    RUNNING      0:0 
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scontrol show job 3680001
+[?2004lJobId=3680001 JobName=MNXB11 Calculate Pi homework
+   UserId=mlorente(400212) GroupId=mlorente(400212) MCS_label=N/A
+   Priority=63465 Nice=0 Account=hep2023-1-6 QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:01:09 TimeLimit=00:08:00 TimeMin=N/A
+   SubmitTime=2026-09-20T15:47:30 EligibleTime=2026-09-20T15:47:30
+   AccrueTime=2026-09-20T15:47:30
+   StartTime=2026-09-20T15:47:31 EndTime=2026-09-20T15:55:31 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-20T15:47:31 Scheduler=Main
+   Partition=hep AllocNode:Sid=cosmos-pkf:1705558
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=cx05
+   BatchHost=cx05
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=26G,node=1,billing=1
+   AllocTRES=cpu=1,mem=26G,node=1,billing=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=26G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/mlorente/git/MNXB11-homework/homework3/calculatePI/scripts/calculatepi.sbatch-manuel.sh
+   WorkDir=/home/mlorente/git/MNXB11-homework/homework3/calculatePI/scripts
+   StdErr=/home/mlorente/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3680001.out
+   StdIn=/dev/null
+   StdOut=/home/mlorente/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3680001.out
+   Power=
+   
+
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scontrol show job 3680001[9Pacct -j[C[C[C[C[C[C[C[Cqueue -u mlorentebatch calculatepi.sbatch-manuel.sh [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pcat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[5@./run_in_container_calculatePI[C[C[C[C[5Pcalculatepi.sbatch-manuel[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3@sbatch[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[18Pqueue -u mlorente[2Pacct -j 3680001[9@control show job[C[C[C[C[C[C[C[C[K[K[mlorente@cosmos-pkf scripts]$ [K[mlorente@cosmos-pkf scripts]$ scontrol show job 3680001[9Pacct -j[C[C[C[C[C[C[C[Cqueue -u mlorente[2Pacct -j 3680001[9@control show job[C[C[C[C[C[C[C[C[Ktail slurm-3680001.out 
+[?2004lProcessing datapoint: 299991000 of 300000000
+Processing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch '[K-J WASTED calculatepi.sbatch-manuel.sh 
+[?2004lSubmitted batch job 3680006
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch -J WASTED calculatepi.sbatch-manuel.sh 
+[?2004lSubmitted batch job 3680007
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch -J WASTED calculatepi.sbatch-manuel.sh 
+[?2004lSubmitted batch job 3680008
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch -J WASTED calculatepi.sbatch-manuel.sh 
+[?2004lSubmitted batch job 3680009
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ sbatch -J WASTED calculatepi.sbatch-manuel.sh [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[23Ptail slurm-3680001.out[Cscontrol show job 3680001[9Pacct -j[C[C[C[C[C[C[C[Cqueue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3680006       hep   WASTED mlorente  R       0:04      1 cx05
+           3680007       hep   WASTED mlorente  R       0:04      1 cx05
+           3680008       hep   WASTED mlorente  R       0:04      1 cx05
+           3680009       hep   WASTED mlorente  R       0:04      1 cx05
+           3680001       hep MNXB11 C mlorente  R       2:03      1 cx05
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scancel 3680009
+[?2004lkmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scancel 3680009[K8
+[?2004lkmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scancel 3680008[K7
+[?2004lkmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scancel 368000789queue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3680006       hep   WASTED mlorente  R       0:31      1 cx05
+           3680001       hep MNXB11 C mlorente  R       2:30      1 cx05
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ s[Ktail slurm-3680006.out 
+[?2004lProcessing datapoint: 299991000 of 300000000
+Processing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ scancel 3680006
+[?2004lkmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ tascancel 3680006tail slurm-3680006.out 
+[?2004lProcessing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+slurmstepd: error: *** JOB 3680006 ON cx05 CANCELLED AT 2026-09-20T15:50:47 ***
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ tail slurm-3680006.out [8Pscancel 3680006tail slurm-3680006.out [5Psqueue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3680001       hep MNXB11 C mlorente  R       3:38      1 cx05
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ tail slurm-3680001.out 
+[?2004lProcessing datapoint: 299991000 of 300000000
+Processing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ tail slurm-3680001.out [5Psqueue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3680001       hep MNXB11 C mlorente  R       6:40      1 cx05
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ squeue -u mlorentetail slurm-3680001.out 
+[?2004lProcessing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+Info in <TCanvas::Print>: png file pi_hit_miss.png has been created
+Estimated pi = 3.14162
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ tail slurm-3680001.out [5Psqueue -u mlorentetail slurm-3680001.out [5Psqueue -u mlorente
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+kmlorente@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[mlorente@cosmos-pkf scripts]$ exit
+[?2004lexit
