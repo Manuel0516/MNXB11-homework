@@ -3,6 +3,8 @@
 #include <TTree.h>
 #include <iostream>
 #include <TRandom.h>
+#include <TH2D.h>
+#include <TCanvas.h>
 
 void read() {
     // Open the file 
@@ -15,7 +17,7 @@ void read() {
 
     // Tretrive the tree
     TTree *tree = nullptr;
-    file->GetObject("moving_objects", tree);
+    file->GetObject("tree", tree);
 
     if (!tree) {
         std::cerr << "Tree not found" << std::endl;
