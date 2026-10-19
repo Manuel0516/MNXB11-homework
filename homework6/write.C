@@ -9,7 +9,7 @@ void write() {
     TFile *file = new TFile("tree_file.root", "RECREATE");
 
     // Create the tree
-    TTree *tree = new TTree("moving_objects", "Velocity measurements");
+    TTree *tree = new TTree("tree", "Velocity measurements");
 
     // Create our object 
     MovingObject *obj = new MovingObject();
